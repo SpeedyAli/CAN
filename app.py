@@ -66,72 +66,67 @@ This helps understand the separation behavior in distillation.
 
 # Antoine constants
 antoine_constants = {
-    "heptane": {"A": 6.81228, "B": 625.64, "C": 255.0},
-    "octane": {"A": 6.893, "B": 1260.0, "C": 216.0}
+    "acetylene": {"A": 6.81228, "B": 625.64, "C": 255.0},
+    "n-heptane": {"A": 6.893, "B": 1260.0, "C": 216.0}
 }
 
 def antoine_eq(T, A, B, C):
-    return 10**(A - B / (C + T))
+    return 10**(A - B / (C + T))  # P in mmHg
 
-P_total = 760  # mmHg
+P_total = 760  # Total pressure in mmHg
 
-def bubble_point_temp(x_heptane):
+def bubble_point_temp(x_acetylene):
     def func(T):
-        P_heptane = antoine_eq(T, **antoine_constants["heptane"])
-        P_octane = antoine_eq(T, **antoine_constants["octane"])
-        x_octane = 1 - x_heptane
-        return x_heptane * P_heptane + x_octane * P_octane - P_total
-    T_guess = 100
-    return fsolve(func, T_guess)[0]
+        P_a = antoine_eq(T, **antoine_constants["acetylene"])
+        P_h = antoine_eq(T, **antoine_constants["n-heptane"])
+        x_h = 1 - x_acetylene
+        return x_acetylene * P_a + x_h * P_h - P_total
+    return fsolve(func, 60)[0]  # Start guess from 60°C
 
+# Generate data
 x_vals = np.linspace(0, 1, 21)
 T_vals = []
 y_vals = []
-table_data = []
 
 for x in x_vals:
     T = bubble_point_temp(x)
-    P_heptane = antoine_eq(T, **antoine_constants["heptane"])
-    y = (x * P_heptane) / P_total
+    P_a = antoine_eq(T, **antoine_constants["acetylene"])
+    y = (x * P_a) / P_total
     T_vals.append(T)
     y_vals.append(y)
-    table_data.append((round(x, 3), round(y, 3), round(T, 2)))
 
-# Plot T-x-y diagram
+# T-x-y Diagram
 st.subheader("T-x-y Diagram")
 fig1, ax1 = plt.subplots()
-ax1.plot(x_vals, T_vals, label='Liquid (x vs T)', marker='o', color='blue')
-ax1.plot(y_vals, T_vals, label='Vapor (y vs T)', marker='s', color='red')
-ax1.set_xlabel('Mole Fraction of Heptane')
-ax1.set_ylabel('Temperature (°C)')
-ax1.set_title('T-x-y Diagram for Heptane-Octane at 1 atm')
+ax1.plot(x_vals, T_vals, 'bo-', label='Liquid (x vs T)')
+ax1.plot(y_vals, T_vals, 'ro--', label='Vapor (y vs T)')
+ax1.set_xlabel("Mole Fraction of Acetylene")
+ax1.set_ylabel("Temperature (°C)")
+ax1.set_title("T-x-y Diagram at 1 atm")
 ax1.legend()
-ax1.grid(True)
+ax1.grid()
 st.pyplot(fig1)
 
-# Show data table
-st.markdown("### Tabulated Data")
-st.dataframe(
-    {"x (Liquid Heptane)": [row[0] for row in table_data],
-     "y (Vapor Heptane)": [row[1] for row in table_data],
-     "T (°C)": [row[2] for row in table_data]}
-)
-
-# x-y diagram
+# x-y Diagram
 st.subheader("x-y Diagram")
 fig2, ax2 = plt.subplots()
-ax2.plot(x_vals, y_vals, marker='d', color='green', label='x-y Curve')
-ax2.plot([0, 1], [0, 1], '--', color='gray', label='y = x')
-ax2.set_xlabel('Liquid Mole Fraction of Heptane (x)')
-ax2.set_ylabel('Vapor Mole Fraction of Heptane (y)')
-ax2.set_title('x-y Diagram for Heptane-Octane at 1 atm')
+ax2.plot(x_vals, y_vals, 'go-', label='x-y Curve')
+ax2.plot([0, 1], [0, 1], 'k--', label='y = x')
+ax2.set_xlabel("x (Liquid Mole Fraction of Acetylene)")
+ax2.set_ylabel("y (Vapor Mole Fraction of Acetylene)")
+ax2.set_title("x-y Diagram at 1 atm")
 ax2.legend()
-ax2.grid(True)
+ax2.grid()
 st.pyplot(fig2)
 
 st.markdown("""
-### Summary
-This app demonstrates the phase behavior of ideal mixtures using **heptane and octane** as an example.
-It calculates and visualizes the temperature and composition relationships in liquid-vapor equilibrium at constant pressure.
-Such tools are valuable for understanding distillation and separation processes.
+---
+
+### Notes:
+- Antoine Equation:  \( P_{\text{sat}} = 10^{A - B / (C + T)} \)
+- Bubble point T: Solve \( x_a P_a + (1 - x_a) P_h = P_{\text{total}} \)
+- Vapor mole fraction: \( y = \frac{x P_a}{P_{\text{total}}} \)
+
+This app is useful for visualizing VLE behavior of a non-azeotropic binary system.
+
 """)
