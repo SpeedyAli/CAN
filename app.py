@@ -5,7 +5,7 @@ from scipy.optimize import fsolve
 
 # Page setup
 st.set_page_config(page_title="T-x-y and x-y Diagrams - Nauman Salman Zafar", layout="centered")
-st.title("T-x-y and x-y Diagram Analysis for Heptane-Octane Mixture")
+st.title("T-x-y and x-y Diagram Analysis for acetylene-n-heptane Mixture")
 
 st.markdown("""
 **Submitted by**: Nauman Salman Zafar  
@@ -123,9 +123,9 @@ st.markdown("""
 ---
 
 ### Notes:
-- Antoine Equation:  \( P_{\text{sat}} = 10^{A - B / (C + T)} \)
-- Bubble point T: Solve \( x_a P_a + (1 - x_a) P_h = P_{\text{total}} \)
-- Vapor mole fraction: \( y = \frac{x P_a}{P_{\text{total}}} \)
+st.markdown("Antoine Equation:\n $$ \P_{\text{sat}} = 10^{A - B / (C + T)}$$")
+st.markdown("Bubble point T:\n $$ x_a P_a + (1 - x_a) P_h = P_{\text{total}$$")
+st.markdown("Vapor mole fraction:\n $$y = \frac{x P_a}{P_{\text{total}}}$$")
 
 This app is useful for visualizing VLE behavior of a non-azeotropic binary system.
 
