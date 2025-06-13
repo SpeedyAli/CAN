@@ -119,14 +119,18 @@ ax2.legend()
 ax2.grid()
 st.pyplot(fig2)
 
+st.markdown("### Notes")
 st.markdown("""
----
+- Antoine Equation:  
+  $$P_{\\text{sat}} = 10^{A - \\frac{B}{C + T}}$$
 
-### Notes:
-st.markdown("Antoine Equation:\n $$ \P_{\text{sat}} = 10^{A - B / (C + T)}$$")
-st.markdown("Bubble point T:\n $$ x_a P_a + (1 - x_a) P_h = P_{\text{total}$$")
-st.markdown("Vapor mole fraction:\n $$y = \frac{x P_a}{P_{\text{total}}}$$")
+- Bubble point temperature:  
+  $$x_1 P_1^{sat} + x_2 P_2^{sat} = P_{\\text{total}}$$
+""")
 
+st.latex(r"y = \frac{x_1 P_1^{sat}}{P_{total}}")
+
+st.markdown("""
 This app is useful for visualizing VLE behavior of a non-azeotropic binary system.
 
 """)
