@@ -11,6 +11,12 @@ st.markdown("""
 **To:** Prof. Imran Mohammad  
 **Department of Petrochemical**  
 **UIT RGPV, Bhopal**
+
+---
+
+### System Studied: n-Hexane + n-Heptane
+
+This app calculates and plots T-x-y and x-y diagrams for an ideal binary mixture using Raoult's Law and Antoine's Equation.
 """)
 
 antoine_constants = {
