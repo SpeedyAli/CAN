@@ -14,7 +14,7 @@ st.markdown("""
 
 ---
 
-### System Studied: n-Hexane + n-Heptane
+### System Studied: Hexane + Heptane
 
 This app calculates and plots T-x-y and x-y diagrams for an ideal binary mixture using Raoult's Law and Antoine's Equation.
 """)
