@@ -79,10 +79,8 @@ st.dataframe(
 st.markdown("### Notes")
 st.markdown("**Antoine Equation:**")
 st.latex(r"P_{\text{sat}} = 10^{A - \frac{B}{C + T}}")
-st.markdown("""
-- Bubble point temperature:  
-  $$x_1 P_1^{sat} + x_2 P_2^{sat} = P_{\text{total}}$$
-""")
+st.markdown("**Bubble point temperature:**")
+st.latex(r"x_1 P_1^{sat} + x_2 P_2^{sat} = P_{\text{total}}")
 
 st.latex(r"y = \frac{x_1 P_1^{sat}}{P_{total}}")
 
